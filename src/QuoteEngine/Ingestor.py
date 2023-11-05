@@ -23,7 +23,7 @@ class Ingestor:
         return False
 
     @classmethod
-    def is_file_compatible(cls, path: str):
+    def parse(cls, path: str):
         """Return ingestor by file type."""
         cls_ingestor = get_ingestor_by_file_type(path)
         if cls_ingestor and cls_ingestor.can_ingest(path):
