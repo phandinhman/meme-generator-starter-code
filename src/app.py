@@ -47,12 +47,13 @@ def meme_rand():
     # Use the random python standard library class to:
     # 1. select a random image from imgs array
     # 2. select a random quote from the quotes array
-
-    img = random.choice(imgs)
-    quote = random.choice(quotes)
-    path = meme.make_meme(img, quote.body, quote.author)
-    return render_template('meme.html', path=path)
-
+    try:
+        img = random.choice(imgs)
+        quote = random.choice(quotes)
+        path = meme.make_meme(img, quote.body, quote.author)
+        return render_template('meme.html', path=path)
+    except:
+        return render_template('error.html')
 
 @app.route('/create', methods=['GET'])
 def meme_form():
