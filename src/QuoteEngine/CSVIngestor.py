@@ -1,3 +1,7 @@
+"""Build CSVIngestor.
+
+Ingest and parse.
+"""
 import os
 import pandas as pd
 
@@ -6,12 +10,19 @@ from QuoteEngine.QuoteModel import QuoteModel
 
 
 class CSVIngestor(IngestorInterface):
+    """Build CSVIngestor.
+
+    Ingest and parse.
+    """
+
     def can_ingest(self, path: str):
+        """Return a boolean file is can ingest."""
         if path and path.endswith('.csv') and os.path.isfile(path):
             return True
         return False
 
     def parse(self, path: str):
+        """Return a list result."""
         result = []
 
         csv_data = pd.read_csv(path)

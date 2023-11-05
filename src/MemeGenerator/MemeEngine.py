@@ -1,12 +1,23 @@
+"""Build MemeEngine.
+
+Ingest and parse.
+"""
 import uuid
 from PIL import Image, ImageDraw, ImageFont
 
 
 class MemeEngine:
+    """Build MemeEngine.
+
+    Init and make_meme.
+    """
+
     def __init__(self, output_dir):
+        """Return a boolean file is can ingest."""
         self.output_dir = output_dir
 
     def make_meme(self, img_path, text, author, width=500):
+        """Return a boolean file is can ingest."""
         image = Image.open(img_path)
         if image.size[0] != width:
             width_percent = (width / float(image.size[0]))

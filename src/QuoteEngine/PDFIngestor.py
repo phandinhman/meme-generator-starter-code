@@ -1,3 +1,7 @@
+"""Build PDFIngestor.
+
+init and str.
+"""
 import os
 import subprocess
 
@@ -6,22 +10,20 @@ from QuoteEngine.QuoteModel import QuoteModel
 from subprocess import PIPE
 
 
-def convert_pdf_to_text(pdf_path):
-    # Call pdftotext to convert the PDF to text
-    result = subprocess.run(["pdftotext", pdf_path], capture_output=True)
-
-    # Decode the output and return the extracted text
-    text = result.stdout.decode("utf-8")
-    return text
-
-
 class PDFIngestor(IngestorInterface):
+    """Build PDFIngestor.
+
+    Include can_ingest and parse.
+    """
+
     def can_ingest(self, path: str):
+        """Return a boolean file is can ingest."""
         if path and path.endswith('.pdf') and os.path.isfile(path):
             return True
         return False
 
     def parse(self, path: str):
+        """Return a boolean file is can ingest."""
         try:
             text_from_pdf = convert_pdf_to_text(path)
             txt_list = text_from_pdf.split('\n')
@@ -36,3 +38,11 @@ class PDFIngestor(IngestorInterface):
             return  result
         except Exception as ex:
             return []
+
+
+def convert_pdf_to_text(pdf_path):
+    """Return a text."""
+    result = subprocess.run(["pdftotext", pdf_path], capture_output=True)
+
+    text = result.stdout.decode("utf-8")
+    return text

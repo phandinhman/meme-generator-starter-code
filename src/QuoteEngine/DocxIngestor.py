@@ -1,3 +1,7 @@
+"""Build DocxIngestor.
+
+Ingest and parse.
+"""
 import docx
 import os
 from QuoteEngine.IngestorInterface import IngestorInterface
@@ -5,10 +9,17 @@ from QuoteEngine.QuoteModel import QuoteModel
 
 
 class DocxIngestor(IngestorInterface):
+    """Build DocxIngestor.
+
+    Ingest and parse.
+    """
+
     def can_ingest(self, path: str):
+        """Return a boolean file is can ingest."""
         return self.is_docx_file(path)
 
     def parse(self, path: str):
+        """Return a list result."""
         try:
             data_docx = docx.Document(path)
             result = []
@@ -26,6 +37,7 @@ class DocxIngestor(IngestorInterface):
 
 
     def is_docx_file(self, path: str):
+        """Return a boolean file is docx or not."""
         if not path:
             return False
 

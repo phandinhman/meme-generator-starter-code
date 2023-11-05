@@ -1,16 +1,20 @@
+"""TextIngestor class."""
 import os
 from QuoteEngine.IngestorInterface import IngestorInterface
 from QuoteEngine.QuoteModel import QuoteModel
 
 
 class TextIngestor(IngestorInterface):
+    """A TextIngestor class."""
 
     def can_ingest(self, path: str):
+        """Return a boolean."""
         if path and path.endswith('.txt') and os.path.isfile(path):
             return True
         return False
 
     def parse(self, path: str):
+        """Return a list quote model."""
         result = []
         with open(path, 'r') as txt_file:
             txt_contents = txt_file.read()

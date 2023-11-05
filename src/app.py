@@ -1,3 +1,7 @@
+"""Build app.
+
+generate meme.
+"""
 import random
 import os
 import requests
@@ -12,8 +16,7 @@ meme = MemeEngine('./static')
 
 
 def setup():
-    """ Load all resources """
-
+    """Load all resources."""
     quote_files = ['./_data/DogQuotes/DogQuotesTXT.txt',
                    './_data/DogQuotes/DogQuotesDOCX.docx',
                    './_data/DogQuotes/DogQuotesPDF.pdf',
@@ -40,7 +43,7 @@ quotes, imgs = setup()
 
 @app.route('/')
 def meme_rand():
-    """ Generate a random meme """
+    """Generate a random meme."""
     # Use the random python standard library class to:
     # 1. select a random image from imgs array
     # 2. select a random quote from the quotes array
@@ -53,36 +56,33 @@ def meme_rand():
 
 @app.route('/create', methods=['GET'])
 def meme_form():
-    """ User input for meme information """
+    """User input for meme information."""
     return render_template('meme_form.html')
 
 
 @app.route('/create', methods=['POST'])
 def meme_post():
-    """ Create a user defined meme """
-
+    """Create a user defined meme."""
     # 1. Use requests to save the image from the image_url
     #    form param to a temp local file.
     image_url = request.form.get('image_url')
     body = request.form.get('body')
     author = request.form.get('author')
 
-    path = None
-    if image_url:
-        try:
-            tmp_file_path = f'tmp/{os.path.basename(image_url)}'
-            rq_file = requests.get(image_url)
-            with open(tmp_file_path, 'wb') as f:
-                f.write(rq_file.content)
-            # 2. Use the meme object to generate a meme using this temp
-            #    file and the body and author form paramaters.
-            path = meme.make_meme(tmp_file_path, body, author)
-            # 3. Remove the temporary saved image.
-            os.remove(tmp_file_path)
-        except:
-            return render_template('error.html')
-
-    return render_template('meme.html', path=path)
+    if not image_url:
+        return render_template('error.html')
+    try:
+        tmp_file_path = f'tmp/{os.path.basename(image_url)}'
+        rq_file = requests.get(image_url)
+        with open(tmp_file_path, 'wb') as f:
+            f.write(rq_file.content)
+        # 2. Use the meme object to generate a meme using this temp
+        #    file and the body and author form paramaters.
+        path = meme.make_meme(tmp_file_path, body, author)
+        # 3. Remove the temporary saved image.
+        os.remove(tmp_file_path)
+    except:
+        return render_template('error.html')
 
 
 if __name__ == "__main__":
